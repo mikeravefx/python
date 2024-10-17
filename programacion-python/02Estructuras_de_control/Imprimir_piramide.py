@@ -1,5 +1,5 @@
-def dibujar_escalera(filas):
-    for i in range(1, filas + 1):
+filas = int(input("Introduce el número de filas: "))
+for i in range(1, filas + 1):
         # Espacios en blanco
         for j in range(filas - i):
             print(" ", end="")
@@ -13,5 +13,4 @@ def dibujar_escalera(filas):
         print()
 
 # Solicitar al usuario el número de filas
-filas = int(input("Introduce el número de filas: "))
-dibujar_escalera(filas)
+
