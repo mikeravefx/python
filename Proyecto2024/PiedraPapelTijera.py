@@ -27,57 +27,54 @@ def jugar(opciones:int)->str:
         eleccion = int(input("Tu elección: "))
         jugada_jugador = opciones[eleccion - 1]
         jugada_ordenador = random.choice(opciones)
-        borrar_pantalla()
+     
         
         print("Tú elegiste:", jugada_jugador)
         print("Ordenador eligió: ",jugada_ordenador)
         
        
         if jugada_jugador == jugada_ordenador:
-            imprimir_texto_dinamico("Empate")
+            print("Empate")
 
         elif (jugada_jugador == "piedra" and jugada_ordenador == "tijeras") or \
              (jugada_jugador == "tijeras" and jugada_ordenador == "papel") or \
              (jugada_jugador == "papel" and jugada_ordenador == "piedra"):
             puntuacion_usuario += 1
-            imprimir_texto_dinamico(print("Ganaste esta ronda."),delay=0.02)           
-            borrar_pantalla() 
+            print("Ganaste esta ronda.")         
+            
           
         else:
             puntuacion_ordenador += 1
-            imprimir_texto_dinamico("Perdiste esta ronda.",delay=0.02)
+            print("Perdiste esta ronda.")
             
 
         print("Puntuación: Usuario", puntuacion_usuario,"- Ordenador ", puntuacion_ordenador)
-        time.sleep(2)
-        borrar_pantalla() 
        
     if puntuacion_usuario == 3:
        
-        imprimir_texto_dinamico("¡Felicidades! Ganaste la partida.",delay=0.02)
+        print("¡Felicidades! Ganaste la partida.")
     else:
         
-        imprimir_texto_dinamico("El ordenador ganó la partida.",delay=0.02)
+        print("El ordenador ganó la partida.")
 
 
 
 def programaprincipal():
     while True:
         # mostrar_menu()
-        borrar_pantalla() 
-        imprimir_texto_dinamico('''"Menú:"\n"1. Jugar"\n"2. Ver instrucciones"\n"3. Salir"''',0.05)
+        imprimir_texto_dinamico('''"Menú:"\n"1. Jugar"\n"2. Ver instrucciones"\n"3. Salir"''',delay= 0.02)
         opcion = int(input("Elige una opción: "))
         if opcion == 1:
             jugar(opcion)
             
         elif opcion == 2:
-            borrar_pantalla() 
-            imprimir_texto_dinamico('''"\nInstrucciones:"\n"1. Piedra vence a tijeras"
+            borrar_pantalla()
+            print('''"\nInstrucciones:"\n"1. Piedra vence a tijeras"
                             \n"2. Papel vence a piedra"
                             \n"3. Tijeras vence a papel"
-                            \n"Elige tu opción y compite contra el ordenador.El primer jugador en ganar 3 rondas es el vencedor.\n"''',delay=0.0001)
+                            \n"Elige tu opción y compite contra el ordenador.El primer jugador en ganar 3 rondas es el vencedor.\n"''')
         elif opcion == 3:
-            imprimir_texto_dinamico("Gracias por jugar. ¡Hasta luego!",delay=0.0001)
+            print("Gracias por jugar. ¡Hasta luego!")
             
         else:
             print("Opción no válida. Inténtalo de nuevo.")
