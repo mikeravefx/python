@@ -1,4 +1,4 @@
-import random-7
+import random
 
 def generar_operacion():
     tipo_operacion = random.choice(["multiplicacion", "suma", "resta"])

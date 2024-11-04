@@ -10,4 +10,6 @@ def imprimir_con_color(texto, color):
 
 def imprimir_con_blinking(texto):
     # Secuencia ANSI para hacer parpadear el texto
-    blinking_text = '\033
+    blinking_text = '\033'
+
+    imprimir_con_blinking("hola",any)

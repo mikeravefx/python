@@ -63,22 +63,26 @@ def programaprincipal():
     while True:
         # mostrar_menu()
         imprimir_texto_dinamico('''"Menú:"\n"1. Jugar"\n"2. Ver instrucciones"\n"3. Salir"''',delay= 0.02)
-        opcion = int(input("Elige una opción: "))
-        if opcion == 1:
+        opciones_validas=("1","2","3")
+        opcion = input("Elige una opción: ")
+
+        if opcion == "1":
             jugar(opcion)
             
-        elif opcion == 2:
+        elif opcion == "2":
             borrar_pantalla()
             print('''"\nInstrucciones:"\n"1. Piedra vence a tijeras"
                             \n"2. Papel vence a piedra"
                             \n"3. Tijeras vence a papel"
                             \n"Elige tu opción y compite contra el ordenador.El primer jugador en ganar 3 rondas es el vencedor.\n"''')
-        elif opcion == 3:
+        elif opcion == "3":
             print("Gracias por jugar. ¡Hasta luego!")
             
         else:
             print("Opción no válida. Inténtalo de nuevo.")
+            programaprincipal()
             break
         # Ejecutar programa Principal.
 
 programaprincipal()
+
