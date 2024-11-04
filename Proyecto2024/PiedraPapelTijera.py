@@ -17,22 +17,31 @@ def borrar_pantalla():
     else: # Para Linux y macOS 
      os.system('clear')
      
-def jugar(opciones:int)->str:
-    opciones = ["piedra", "papel", "tijeras"]
+def jugar(posiblesjugadas:int)->str:
+    posiblesjugadas = ["piedra", "papel", "tijeras"]
     puntuacion_usuario = 0
     puntuacion_ordenador = 0
 
     while puntuacion_usuario < 3 and puntuacion_ordenador < 3:
         imprimir_texto_dinamico('''\nElige una opción:\n"1. Piedra"\n"2. Papel"\n"3. Tijeras''',delay= 0.00001)
         eleccion = int(input("Tu elección: "))
-        jugada_jugador = opciones[eleccion - 1]
-        jugada_ordenador = random.choice(opciones)
-     
-        
+        jugada_jugador = posiblesjugadas[eleccion - 1]
+        jugada_ordenador = random.choice(posiblesjugadas)
+          
         print("Tú elegiste:", jugada_jugador)
         print("Ordenador eligió: ",jugada_ordenador)
-        
+
+    if puntuacion_usuario == 3:
        
+        print("¡Felicidades! Ganaste la partida.")
+    else:
+        
+        print("El ordenador ganó la partida.")
+
+        
+def compararjugadas(jugada_jugador: str,jugada_ordenador: str) :
+
+
         if jugada_jugador == jugada_ordenador:
             print("Empate")
 
@@ -50,13 +59,7 @@ def jugar(opciones:int)->str:
 
         print("Puntuación: Usuario", puntuacion_usuario,"- Ordenador ", puntuacion_ordenador)
        
-    if puntuacion_usuario == 3:
-       
-        print("¡Felicidades! Ganaste la partida.")
-    else:
-        
-        print("El ordenador ganó la partida.")
-
+    
 
 
 def programaprincipal():
