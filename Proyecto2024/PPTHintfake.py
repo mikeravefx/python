@@ -15,9 +15,19 @@ def borrar_pantalla():
         os.system('cls') 
     else:  # Para Linux y macOS 
         os.system('clear')
-     
+
+def obtener_jugada_ordenador(jugada_jugador: str) -> str:
+    """Devuelve la jugada que el ordenador debe elegir para ganar."""
+    if jugada_jugador == "piedra":
+        return "papel"
+    elif jugada_jugador == "papel":
+        return "tijeras"
+    elif jugada_jugador == "tijeras":
+        return "piedra"
+    return random.choice(["piedra", "papel", "tijeras"])
+
 def comparar_jugadas(jugada_jugador: str, jugada_ordenador: str) -> tuple:
-    # Compara las jugadas del jugador y el ordenador, y retorna las puntuaciones actualizadas.
+    """Compara las jugadas del jugador y el ordenador, y retorna las puntuaciones actualizadas."""
     puntuacion_usuario = 0
     puntuacion_ordenador = 0
 
@@ -41,7 +51,7 @@ def jugar() -> None:
 
     while puntuacion_usuario < 3 and puntuacion_ordenador < 3:
         imprimir_texto_dinamico('''\nElige una opción:\n"1. Piedra"\n"2. Papel"\n"3. Tijeras''', delay=0.00001)
-        
+
         try:
             eleccion = int(input("Tu elección: "))
             if eleccion < 1 or eleccion > 3:
@@ -51,13 +61,18 @@ def jugar() -> None:
             continue
         
         jugada_jugador = posiblesjugadas[eleccion - 1]
-        jugada_ordenador = random.choice(posiblesjugadas)
+        # Si el jugador tiene 2 puntos, el ordenador elige su jugada de forma tramposa
+        if puntuacion_usuario == 2:
+            jugada_ordenador = obtener_jugada_ordenador(jugada_jugador)
+            imprimir_texto_dinamico(f"¡Oh no! El ordenador está trampeando... ¡Escojo mi jugada!")
+        else:
+            jugada_ordenador = random.choice(posiblesjugadas)
 
         print("Tú elegiste:", jugada_jugador)
         print("Ordenador eligió:", jugada_ordenador)
 
         # Actualizamos las puntuaciones
-        puntuacion_usuario_ronda, puntuacion_ordenador_ronda = comparar_jugadas(jugada_jugador, jugada_ordenador, puntuacion_usuario,puntuacion_ordenador)
+        puntuacion_usuario_ronda, puntuacion_ordenador_ronda = comparar_jugadas(jugada_jugador, jugada_ordenador)
         puntuacion_usuario += puntuacion_usuario_ronda
         puntuacion_ordenador += puntuacion_ordenador_ronda
 
@@ -66,7 +81,7 @@ def jugar() -> None:
     if puntuacion_usuario == 3:
         print("¡Felicidades! Ganaste la partida.")
     else:
-        print("El ordenador ganó la partida.")
+        print("El ordenador ganó la partida. ¡Mejor suerte la próxima vez!")
 
 def programaprincipal() -> None:
     while True:
@@ -90,5 +105,3 @@ def programaprincipal() -> None:
 
 # Ejecutar programa principal
 programaprincipal()
-
-

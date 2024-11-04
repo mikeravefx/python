@@ -48,7 +48,4 @@ def comparar_jugadas(jugador: str, ordenador: str, puntuaciones: list[int]) -> N
 
     print(f"Puntuación: Usuario {puntuaciones[0]} - Ordenador {puntuaciones[1]}")
 
-
-
-if __name__ == "__main__":
-    doctest.testmod()
+doctest.testmod()
