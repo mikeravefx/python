@@ -16,15 +16,19 @@ def borrar_pantalla():
     else:  # Para Linux y macOS 
         os.system('clear')
 
-def obtener_jugada_ordenador(jugada_jugador: str) -> str:
-    """Devuelve la jugada que el ordenador debe elegir para ganar."""
-    if jugada_jugador == "piedra":
-        return "papel"
-    elif jugada_jugador == "papel":
-        return "tijeras"
-    elif jugada_jugador == "tijeras":
-        return "piedra"
-    return random.choice(["piedra", "papel", "tijeras"])
+def obtener_jugada_ordenador(jugada_jugador: str, modo_trampa: bool) -> str:
+    """Devuelve la jugada que el ordenador debe elegir. En modo trampa, siempre elige la que gana."""
+    if modo_trampa:
+        # Modo trampa: el ordenador siempre elige la jugada ganadora.
+        if jugada_jugador == "piedra":
+            return "papel"
+        elif jugada_jugador == "papel":
+            return "tijeras"
+        elif jugada_jugador == "tijeras":
+            return "piedra"
+    else:
+        # Modo normal: el ordenador juega aleatoriamente.
+        return random.choice(["piedra", "papel", "tijeras"])
 
 def comparar_jugadas(jugada_jugador: str, jugada_ordenador: str) -> tuple:
     """Compara las jugadas del jugador y el ordenador, y retorna las puntuaciones actualizadas."""
@@ -44,7 +48,7 @@ def comparar_jugadas(jugada_jugador: str, jugada_ordenador: str) -> tuple:
 
     return puntuacion_usuario, puntuacion_ordenador
 
-def jugar() -> None:
+def jugar(modo_trampa: bool) -> None:
     posiblesjugadas = ["piedra", "papel", "tijeras"]
     puntuacion_usuario = 0
     puntuacion_ordenador = 0
@@ -61,12 +65,14 @@ def jugar() -> None:
             continue
         
         jugada_jugador = posiblesjugadas[eleccion - 1]
-        # Si el jugador tiene 2 puntos, el ordenador elige su jugada de forma tramposa
-        if puntuacion_usuario == 2:
-            jugada_ordenador = obtener_jugada_ordenador(jugada_jugador)
+        
+        # El ordenador elige su jugada, en modo trampa elige lo que siempre gana
+        jugada_ordenador = random.choice(obtener_jugada_ordenador(jugada_jugador, modo_trampa))
+
+        if modo_trampa and puntuacion_usuario == 2:
             imprimir_texto_dinamico(f"¡Oh no! El ordenador está trampeando... ¡Escojo mi jugada!")
         else:
-            jugada_ordenador = random.choice(posiblesjugadas)
+            imprimir_texto_dinamico(f"El ordenador elige: {jugada_ordenador}")
 
         print("Tú elegiste:", jugada_jugador)
         print("Ordenador eligió:", jugada_ordenador)
@@ -85,19 +91,29 @@ def jugar() -> None:
 
 def programaprincipal() -> None:
     while True:
-        imprimir_texto_dinamico('''"Menú:"\n"1. Jugar"\n"2. Ver instrucciones"\n"3. Salir"''', delay=0.02)
-        opciones_validas = ("1", "2", "3")
+        imprimir_texto_dinamico('''"Menú:"\n"1. Jugar"\n"2. Ver instrucciones"\n"3. Elegir modo"\n"4. Salir"''', delay=0.02)
+        opciones_validas = ("1", "2", "3", "4")
         opcion = input("Elige una opción: ")
 
         if opcion == "1":
-            jugar()
+            # Jugar con el modo trampa desactivado
+            jugar(False)
         elif opcion == "2":
-            borrar_pantalla()
             print('''"\nInstrucciones:"\n"1. Piedra vence a tijeras"
                           \n"2. Papel vence a piedra"
                           \n"3. Tijeras vence a papel"
                           \n"Elige tu opción y compite contra el ordenador. El primer jugador en ganar 3 rondas es el vencedor.\n"''')
         elif opcion == "3":
+            # Elegir modo de juego: normal o trampa
+            imprimir_texto_dinamico("Elige el modo de juego:\n1. Normal\n2. Trampa", delay=0.02)
+            modo = input("Elige una opción: ")
+            if modo == "1":
+                jugar(False)
+            elif modo == "2":
+                jugar(True)
+            else:
+                print("Opción no válida. Regresando al menú principal.")
+        elif opcion == "4":
             print("Gracias por jugar. ¡Hasta luego!")
             break
         else:
@@ -105,3 +121,4 @@ def programaprincipal() -> None:
 
 # Ejecutar programa principal
 programaprincipal()
+
