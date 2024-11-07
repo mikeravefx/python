@@ -1,7 +1,7 @@
 import random
 import time
 import sys
-from typing import Tuple
+import os
 
 def imprimir_texto_dinamico(texto, delay=0.1):
     for letra in texto:
@@ -10,39 +10,38 @@ def imprimir_texto_dinamico(texto, delay=0.1):
         time.sleep(delay)
     print()  # Nueva línea al final del texto
 
-def borrar_pantalla(): 
-    if os.name == 'nt':  # Para Windows 
-        os.system('cls') 
-    else:  # Para Linux y macOS 
+def borrar_pantalla():
+    if os.name == 'nt':  # Para Windows
+        os.system('cls')
+    else:  # Para Linux y macOS
         os.system('clear')
 
-def obtener_jugada_ordenador(jugada_jugador: str, modo_trampa: bool) -> str:
+def obtener_jugada_ordenador(jugada_jugador: int, modo_trampa: bool) -> int:
     """Devuelve la jugada que el ordenador debe elegir. En modo trampa, siempre elige la que gana."""
-    if modo_trampa and jugada_jugador <= 2:
+    if modo_trampa:
         # Modo trampa: el ordenador siempre elige la jugada ganadora.
-        if jugada_jugador == "piedra":
-            return "papel"
-        elif jugada_jugador == "papel":
-            return "tijeras"
-        elif jugada_jugador == "tijeras":
-            return "piedra"
+        if jugada_jugador == 1:  # Piedra
+            return 2  # Papel
+        elif jugada_jugador == 2:  # Papel
+            return 3  # Tijeras
+        elif jugada_jugador == 3:  # Tijeras
+            return 1  # Piedra
     else:
         # Modo normal: el ordenador juega aleatoriamente.
-        return random.choices(["piedra", "papel", "tijeras"])
-    
+        return random.choice([1, 2, 3])
 
-def comparar_jugadas(jugada_jugador: str, jugada_ordenador: str) -> tuple:
+def comparar_jugadas(jugada_jugador: int, jugada_ordenador: int) -> tuple:
     """Compara las jugadas del jugador y el ordenador, y retorna las puntuaciones actualizadas."""
     puntuacion_usuario = 0
     puntuacion_ordenador = 0
 
     if jugada_jugador == jugada_ordenador:
         print("Empate")
-    elif (jugada_jugador == "piedra" and jugada_ordenador == "tijeras") or \
-         (jugada_jugador == "tijeras" and jugada_ordenador == "papel") or \
-         (jugada_jugador == "papel" and jugada_ordenador == "piedra"):
+    elif (jugada_jugador == 1 and jugada_ordenador == 3) or \
+         (jugada_jugador == 3 and jugada_ordenador == 2) or \
+         (jugada_jugador == 2 and jugada_ordenador == 1):
         puntuacion_usuario += 1
-        print("Ganaste esta ronda.")         
+        print("Ganaste esta ronda.")        
     else:
         puntuacion_ordenador += 1
         print("Perdiste esta ronda.")
@@ -50,33 +49,36 @@ def comparar_jugadas(jugada_jugador: str, jugada_ordenador: str) -> tuple:
     return puntuacion_usuario, puntuacion_ordenador
 
 def jugar(modo_trampa: bool) -> None:
-    posiblesjugadas = ["piedra", "papel", "tijeras"]
     puntuacion_usuario = 0
     puntuacion_ordenador = 0
+    activartrampa = False
 
     while puntuacion_usuario < 3 and puntuacion_ordenador < 3:
-        imprimir_texto_dinamico('''\nElige una opción:\n"1. Piedra"\n"2. Papel"\n"3. Tijeras''', delay=0.00001)
+        imprimir_texto_dinamico('''\nElige una opción:\n1. Piedra\n2. Papel\n3. Tijeras\n''', delay=0.02)
 
         try:
-            eleccion = int(input("Tu elección: "))
+            eleccion = int(input("Tu elección (1-3): "))
             if eleccion < 1 or eleccion > 3:
                 raise ValueError("Opción no válida")
         except ValueError as e:
             print(e)
             continue
-        
-        jugada_jugador = posiblesjugadas[eleccion - 1]
-        
-        # El ordenador elige su jugada, en modo trampa elige lo que siempre gana
-        jugada_ordenador = random.choices(obtener_jugada_ordenador(jugada_jugador, modo_trampa = False))
+       
+        jugada_jugador = eleccion
+       
+        # El ordenador elige su jugada, en modo trampa elige la que siempre gana
+        jugada_ordenador = obtener_jugada_ordenador(jugada_jugador, activartrampa)
 
         if modo_trampa and puntuacion_usuario == 2:
-            imprimir_texto_dinamico(f"¡Oh no! El ordenador está trampeando... ¡Escojo mi jugada!")
+            activartrampa = True
+            imprimir_texto_dinamico("¡Oh no! El ordenador está trampeando... ¡Escojo mi jugada!")
         else:
             imprimir_texto_dinamico(f"El ordenador elige: {jugada_ordenador}")
 
-        print("Tú elegiste:", jugada_jugador)
-        print("Ordenador eligió:", jugada_ordenador)
+        # Convertimos la jugada a texto para la visualización
+        opciones = {1: "Piedra", 2: "Papel", 3: "Tijeras"}
+        print("Tú elegiste:", opciones[jugada_jugador])
+        print("Ordenador eligió:", opciones[jugada_ordenador])
 
         # Actualizamos las puntuaciones
         puntuacion_usuario_ronda, puntuacion_ordenador_ronda = comparar_jugadas(jugada_jugador, jugada_ordenador)
@@ -92,29 +94,35 @@ def jugar(modo_trampa: bool) -> None:
 
 def programaprincipal() -> None:
     while True:
-        imprimir_texto_dinamico('''"Menú:"\n"1. Jugar"\n"2. Ver instrucciones"\n"3. Elegir modo"\n"4. Salir"''', delay=0.02)
-        opciones_validas = ("1", "2", "3", "4")
-        opcion = input("Elige una opción: ")
+        imprimir_texto_dinamico('''\nMenú:\n1. Jugar\n2. Ver instrucciones\n3. Elegir modo\n4. Salir\n''', delay=0.02)
+       
+        try:
+            opcion = int(input("Elige una opción (1-4): "))
+        except ValueError:
+            print("Opción no válida. Inténtalo de nuevo.")
+            continue
 
-        if opcion == "1":
-            # Jugar con el modo trampa desactivado
+        if opcion == 1:
             jugar(False)
-        elif opcion == "2":
-            print('''"\nInstrucciones:"\n"1. Piedra vence a tijeras"
-                          \n"2. Papel vence a piedra"
-                          \n"3. Tijeras vence a papel"
-                          \n"Elige tu opción y compite contra el ordenador. El primer jugador en ganar 3 rondas es el vencedor.\n"''')
-        elif opcion == "3":
-            # Elegir modo de juego: normal o trampa
+        elif opcion == 2:
+            print('''\nInstrucciones:
+1. Piedra vence a tijeras
+2. Papel vence a piedra
+3. Tijeras vence a papel
+Elige tu opción y compite contra el ordenador. El primer jugador en ganar 3 rondas es el vencedor.\n''')
+        elif opcion == 3:
             imprimir_texto_dinamico("Elige el modo de juego:\n1. Normal\n2. Trampa", delay=0.02)
-            modo = input("Elige una opción: ")
-            if modo == "1":
-                jugar(False)
-            elif modo == "2":
-                jugar(True)
-            else:
+            try:
+                modo = int(input("Elige una opción (1-2): "))
+                if modo == 1:
+                    jugar(False)
+                elif modo == 2:
+                    jugar(True)
+                else:
+                    print("Opción no válida. Regresando al menú principal.")
+            except ValueError:
                 print("Opción no válida. Regresando al menú principal.")
-        elif opcion == "4":
+        elif opcion == 4:
             print("Gracias por jugar. ¡Hasta luego!")
             break
         else:
@@ -122,4 +130,3 @@ def programaprincipal() -> None:
 
 # Ejecutar programa principal
 programaprincipal()
-
