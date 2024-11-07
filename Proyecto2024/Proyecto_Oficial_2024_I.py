@@ -89,8 +89,10 @@ def jugar(modo_trampa: bool) -> None:
 
     if puntuacion_usuario == 3:
         print("¡Felicidades! Ganaste la partida.")
+        print("Puntuación total: Usuario", puntuacion_usuario, "- Ordenador", puntuacion_ordenador)
     else:
         print("El ordenador ganó la partida. ¡Mejor suerte la próxima vez!")
+        print("Puntuación total: Usuario", puntuacion_usuario, "- Ordenador", puntuacion_ordenador)
 
 def programaprincipal() -> None:
     while True:
