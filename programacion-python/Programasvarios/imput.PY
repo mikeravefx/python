@@ -1,6 +1,0 @@
-print("¿Cómo te llamas?")
-nombre = input()
-print("Tu nombre es", nombre)
-print("¿Me puedes decir tu edad?")
-edad= input()
-print("tu edad es:", edad)
