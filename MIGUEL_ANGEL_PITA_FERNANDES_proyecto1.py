@@ -15,7 +15,7 @@ def borrar_pantalla():
         os.system('cls')
     else:  # Para Linux y macOS
         os.system('clear')
-# Obtiene jugada dek jugadir como entero, en donde se devuelve la opcion entera de la eleccion del usuario.
+# Obtiene jugada dek jugador como entero, en donde se devuelve la opcion entera de la eleccion del usuario.
 def obtener_jugada_ordenador(jugada_jugador: int, modo_trampa: bool) -> int:
     """Devuelve la jugada que el ordenador debe elegir. En modo trampa, siempre elige la que gana."""
     if modo_trampa:
@@ -29,7 +29,7 @@ def obtener_jugada_ordenador(jugada_jugador: int, modo_trampa: bool) -> int:
             return 1  # Devuelve Piedra
     else:
         # Modo normal: el ordenador juega aleatoriamente.
-        # Utilizamos randon choice de https://devdocs.io/ por que randit solo trabaja con enteros.
+        # Utilizamos randon choice de https://devdocs.io/ 
         return random.choice([1, 2, 3])
 # Compara las jugadas entre el ordenador y el jugador y devuelve una tupla con los resultados
 # Ademas almacenamos la cantidad de partidas ganadas por el jugador y el orodenador
