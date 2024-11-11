@@ -15,7 +15,7 @@ def borrar_pantalla():
         os.system('cls')
     else:  # Para Linux y macOS
         os.system('clear')
-# Obtiene jugada dek jugador como entero, en donde se devuelve la opcion entera de la eleccion del usuario.
+# Obtiene jugada del jugador como entero, en donde se devuelve la opcion entera de la eleccion del usuario.
 def obtener_jugada_ordenador(jugada_jugador: int, modo_trampa: bool) -> int:
     """Devuelve la jugada que el ordenador debe elegir. En modo trampa, siempre elige la que gana."""
     if modo_trampa:
