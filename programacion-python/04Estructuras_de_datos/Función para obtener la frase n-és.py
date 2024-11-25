@@ -12,5 +12,5 @@ def obtener_frase(texto: str, numero: int) -> str:
 
 # Ejemplo de uso
 texto = "Feliz Año Nuevo. З Різдвом Христовим. Boas festas. Feliz Navidad."
-numero = 2
+numero = 3
 print(obtener_frase(texto, numero))  # Debería devolver "Boas festas"
