@@ -6,14 +6,17 @@
     <title>Página Profesional HTML5</title> <!-- Define el título que aparece en la pestaña del navegador -->
     <!-- Enlace a la hoja de estilos de Bootstrap 5 para aplicar estilos predefinidos -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Enlace a AngularJS para agregar funcionalidades dinámicas -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
 </head>
-<body>
-    <!-- Encabezado con fondo primario y texto blanco usando clases de Bootstrap -->
+<body ng-app="myApp" ng-controller="myController"> <!-- Declara el módulo AngularJS y el controlador -->
+
+    <!-- Header con fondo primario y texto blanco usando clases de Bootstrap -->
     <header class="bg-primary text-white text-center p-4">
         <!-- Título principal de la página -->
         <h1>Bienvenido a la Página Profesional</h1>
         <!-- Subtítulo descriptivo -->
-        <p>Ejemplo con etiquetas semánticas en HTML5 y Bootstrap</p>
+        <p>Ejemplo con etiquetas semánticas en HTML5, Bootstrap y AngularJS</p>
     </header>
 
     <!-- Barra de navegación principal, estilizada con Bootstrap -->
@@ -32,6 +35,7 @@
                     <li class="nav-item"><a class="nav-link" href="#formulario">Formulario</a></li>
                     <li class="nav-item"><a class="nav-link" href="#tabla">Tabla</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#imagen">Imagen Externa</a></li>
                 </ul>
             </div>
         </div>
@@ -51,15 +55,15 @@
             <form action="#" method="post" class="row g-3"> <!-- `.row` y `g-3` crean un layout de grilla con espacio -->
                 <div class="col-md-6"> <!-- Columna para el campo de texto, ocupa 6/12 del ancho -->
                     <label for="name" class="form-label">Nombre</label>
-                    <input type="text" id="name" name="name" class="form-control" required> <!-- Campo estilizado -->
+                    <input type="text" id="name" name="name" class="form-control" ng-model="nombre" required> <!-- Campo estilizado -->
                 </div>
                 <div class="col-md-6">
                     <label for="email" class="form-label">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
+                    <input type="email" id="email" name="email" class="form-control" ng-model="correo" required>
                 </div>
                 <div class="col-md-12">
                     <label for="comments" class="form-label">Comentarios</label>
-                    <textarea id="comments" name="comments" class="form-control" rows="3"></textarea>
+                    <textarea id="comments" name="comments" class="form-control" rows="3" ng-model="comentarios"></textarea>
                 </div>
                 <!-- Botones estilizados con clases de Bootstrap -->
                 <div class="col-12">
@@ -67,6 +71,14 @@
                     <button type="reset" class="btn btn-secondary">Borrar</button>
                 </div>
             </form>
+
+            <!-- Mostrar datos ingresados usando AngularJS -->
+            <div class="mt-4">
+                <h3>Datos ingresados:</h3>
+                <p><strong>Nombre:</strong> {{nombre}}</p>
+                <p><strong>Correo Electrónico:</strong> {{correo}}</p>
+                <p><strong>Comentarios:</strong> {{comentarios}}</p>
+            </div>
         </section>
 
         <!-- Tabla de datos -->
@@ -82,11 +94,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><td>Dato 1-1</td><td>Dato 1-2</td><td>Dato 1-3</td><td>Dato 1-4</td></tr>
-                    <tr><td>Dato 2-1</td><td>Dato 2-2</td><td>Dato 2-3</td><td>Dato 2-4</td></tr>
+                    <tr ng-repeat="dato in datos">
+                        <td>{{dato.col1}}</td>
+                        <td>{{dato.col2}}</td>
+                        <td>{{dato.col3}}</td>
+                        <td>{{dato.col4}}</td>
+                    </tr>
                 </tbody>
             </table>
         </section>
+
+        <!-- Enlace a una imagen externa -->
+        <div id="imagen" class="my-5">
+            <a href="https://example.com">
+                <img src="https://example.com/imagen.jpg" alt="Imagen Externa">
+            </a>
+        </div>
+
+        <!-- Enlace para volver al inicio -->
+        <div class="text-center my-3">
+            <a href="#inicio" class="btn btn-secondary">Volver al Inicio</a>
+        </div>
     </main>
 
     <!-- Barra lateral con información de contacto -->
@@ -103,81 +131,30 @@
     <!-- Pie de página -->
     <footer class="bg-dark text-white text-center p-3">
         <p>© 2024 Página Profesional HTML5. Todos los derechos reservados.</p>
+        <!-- Íconos de Bootstrap y Angular -->
+        <div>
+            <a href="https://getbootstrap.com/" class="text-white me-3">
+                <i class="bi bi-bootstrap-fill"></i> Bootstrap
+            </a>
+            <a href="https://angularjs.org/" class="text-white">
+                <i class="fab fa-angular"></i> AngularJS
+            </a>
+        </div>
     </footer>
 
     <!-- JavaScript de Bootstrap para funcionalidad interactiva -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
-    <!-- Contenedor principal que aloja el contenido del sitio -->
-    <main class="container my-5"> <!-- `.container` de Bootstrap centra y ajusta el contenido -->
-        <!-- Sección de artículo independiente -->
-        <article id="articulo">
-            <h2 class="text-primary">Artículo Principal</h2> <!-- Título estilizado con color primario de Bootstrap -->
-            <p class="lead">Este es un artículo independiente que forma parte del contenido principal.</p>
-        </article>
-
-        <!-- Sección de formulario de contacto -->
-        <section id="formulario" class="my-5">
-            <h2 class="text-primary">Formulario de Contacto</h2>
-            <form action="#" method="post" class="row g-3"> <!-- `.row` y `g-3` crean un layout de grilla con espacio -->
-                <div class="col-md-6"> <!-- Columna para el campo de texto, ocupa 6/12 del ancho -->
-                    <label for="name" class="form-label">Nombre</label>
-                    <input type="text" id="name" name="name" class="form-control" required> <!-- Campo estilizado -->
-                </div>
-                <div class="col-md-6">
-                    <label for="email" class="form-label">Correo Electrónico</label>
-                    <input type="email" id="email" name="email" class="form-control" required>
-                </div>
-                <div class="col-md-12">
-                    <label for="comments" class="form-label">Comentarios</label>
-                    <textarea id="comments" name="comments" class="form-control" rows="3"></textarea>
-                </div>
-                <!-- Botones estilizados con clases de Bootstrap -->
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Enviar</button>
-                    <button type="reset" class="btn btn-secondary">Borrar</button>
-                </div>
-            </form>
-        </section>
-
-        <!-- Tabla de datos -->
-        <section id="tabla" class="my-5">
-            <h2 class="text-primary">Tabla de Datos</h2>
-            <table class="table table-striped table-bordered"> <!-- Estilos de tabla de Bootstrap -->
-                <thead class="table-dark">
-                    <tr>
-                        <th>Columna 1</th>
-                        <th>Columna 2</th>
-                        <th>Columna 3</th>
-                        <th>Columna 4</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>Dato 1-1</td><td>Dato 1-2</td><td>Dato 1-3</td><td>Dato 1-4</td></tr>
-                    <tr><td>Dato 2-1</td><td>Dato 2-2</td><td>Dato 2-3</td><td>Dato 2-4</td></tr>
-                </tbody>
-            </table>
-        </section>
-    </main>
-
-    <!-- Barra lateral con información de contacto -->
-    <aside id="contacto" class="bg-light p-4">
-        <h2>Información de Contacto</h2>
-        <address>
-            <strong>Empresa Ejemplo</strong><br>
-            Calle Falsa 123, Ciudad Ejemplo<br>
-            Teléfono: (555) 123-4567<br>
-            Correo: <a href="mailto:info@empresa.com">info@empresa.com</a>
-        </address>
-    </aside>
-
-    <!-- Pie de página -->
-    <footer class="bg-dark text-white text-center p-3">
-        <p>© 2024 Página Profesional HTML5. Todos los derechos reservados.</p>
-    </footer>
-
-    <!-- JavaScript de Bootstrap para funcionalidad interactiva -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript de FontAwesome para íconos -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <!-- JavaScript de AngularJS -->
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myController', function($scope) {
+            $scope.datos = [
+                { col1: 'Dato 1-1', col2: 'Dato 1-2', col3: 'Dato 1-3', col4: 'Dato 1-4' },
+                { col1: 'Dato 2-1', col2: 'Dato 2-2', col3: 'Dato 2-3', col4: 'Dato 2-4' }
+            ];
+        });
+    </script>
 </body>
 </html>
